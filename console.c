@@ -26,7 +26,7 @@
 */
 
 #include "console.h"
-  
+#include "editxt.h"  
 /*A console mode get string function terminates
 upon receving \r */
 void getstring(char *buf,DEX32_DDL_INFO *dev)
@@ -935,6 +935,13 @@ int console_execute(const char *str)
                demo_graphics();
               }
     
+              else
+    if (strcmp(u,"editxt")==0)
+			        {
+               editxt();
+               console_new();
+              }
+
               else
     if (u[0]=='$')
              {
