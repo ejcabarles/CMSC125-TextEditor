@@ -26,17 +26,35 @@ int editxt_execute(const char *str){
     else if(strcmp(u, ":c")==0){
       u=strtok(0," ");
         char c[2] = "";
+        char temp[2] = "";
 
       fp = openfilex(u,FILE_WRITE);
       strcpy(filebuffer, "");
+       
        do{
           c[0] = getch();
           printf("%c", c[0]);
-          strcat(filebuffer,c);
           
-        }while(c[0] != '\n');
+          if (c[0] == ':'){
+            strcat(temp, c);
+          }
+          else if (c[0] == 'x' && temp[0] == ':'){
+            strcat(temp, c);
+          }
+          else if (c[0] == 'q' && temp[0] == ':'){
+            return 0;
+          }
+          else{
+            strcat(filebuffer, temp);
+            strcat(filebuffer, c);
+            // temp[0] = "";
+          }
+
+        }while(strcmp(temp, ":x") != 0);
+        
         fclose(fp);
-        printf("New file created\n");
+        printf("\nNew file created\n");
+
     }
     else if(strcmp(u, ":r")==0){
         u=strtok(0," ");
@@ -50,19 +68,35 @@ int editxt_execute(const char *str){
     else if(strcmp(u, ":e")==0){
         u=strtok(0," ");
           char c[2] = "";
+          char temp[2] = "";
 
         fp = openfilex(u,FILE_APPEND);
           fread(filebuffer, 1024, 1, fp);
           printf("%s\n",filebuffer );
-          do{
-            c[0] = getch();
-            printf("%c", c[0]);
+
+        do{
+          c[0] = getch();
+          printf("%c", c[0]);
+          
+          if (c[0] == ':'){
+            strcat(temp, c);
+          }
+          else if (c[0] == 'x' && temp[0] == ':'){
+            strcat(temp, c);
+          }
+          else if (c[0] == 'q' && temp[0] == ':'){
+            return 0;
+          }
+          else{
+            strcat(filebuffer, temp);
             strcat(filebuffer,c);
-            
-          }while(c[0] != '\n');
+          }
+
+        }while(strcmp(temp, ":x") != 0);
+
           fwrite(filebuffer, 1024, 1, fp);
           fclose(fp);
-          printf("File successfull edited!\n");
+          printf("\nFile successfully edited!\n");
     }
 
     else if(strcmp(u, ":d")==0){
