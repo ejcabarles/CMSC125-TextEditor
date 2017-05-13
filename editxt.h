@@ -47,7 +47,7 @@ int editxt_execute(const char *str){
         fclose(fp);
         printf("%s\n",filebuffer );
     }
-    else if(strcmp(u, ":a")==0){
+    else if(strcmp(u, ":e")==0){
         u=strtok(0," ");
           char c[2] = "";
 
