@@ -1,8 +1,10 @@
 #include "../vfs/vfs_core.h"
+#include "../stdlib/stdlib.h"
 // #include <stdlib.h>
 
 int editxt_execute(const char *str){
     char temp[512];
+    char filebuffer[1024];
     char *u;
     int command_length = 0;
     file_PCB *fp;
@@ -22,14 +24,48 @@ int editxt_execute(const char *str){
         console_execute("type /icsos/edtxthlp.txt");
     }
     else if(strcmp(u, ":c")==0){
-        u=strtok(0," ");
-        //temporary
-        // if (u!=0) printf("%s\n",u);
-        fp = openfilex(u,FILE_APPEND);
+      u=strtok(0," ");
+        char c[2] = "";
+
+      fp = openfilex(u,FILE_WRITE);
+      strcpy(filebuffer, "");
+       do{
+          c[0] = getch();
+          printf("%c", c[0]);
+          strcat(filebuffer,c);
+          
+        }while(c[0] != '\n');
         fclose(fp);
         printf("New file created\n");
     }
     else if(strcmp(u, ":r")==0){
+        u=strtok(0," ");
+        //temporary
+        // if (u!=0) printf("%s\n",u);
+        fp = openfilex(u,FILE_READ);
+        fread(filebuffer, 1024, 1, fp);
+        fclose(fp);
+        printf("%s\n",filebuffer );
+    }
+    else if(strcmp(u, ":a")==0){
+        u=strtok(0," ");
+          char c[2] = "";
+
+        fp = openfilex(u,FILE_APPEND);
+          fread(filebuffer, 1024, 1, fp);
+          printf("%s\n",filebuffer );
+          do{
+            c[0] = getch();
+            printf("%c", c[0]);
+            strcat(filebuffer,c);
+            
+          }while(c[0] != '\n');
+          fwrite(filebuffer, 1024, 1, fp);
+          fclose(fp);
+          printf("File successfull edited!\n");
+    }
+
+    else if(strcmp(u, ":d")==0){
         u=strtok(0," ");
         if (u!=0){
             // printf("%s\n", u);
@@ -102,13 +138,9 @@ void editxt(){
         getstring(c,myddl);
 
         flag = editxt_execute(c);
-    	if(flag == 0) break;   
-    	
+      if(flag == 0) break;   
+      
     }while(1);
 
-	return;
+  return;
 }
-
-
-
-
