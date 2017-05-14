@@ -36,7 +36,7 @@ int editxt_execute(const char *str){
           printf("%c", c[0]);
           
           if (c[0] == ':'){
-            strcat(temp, c);
+            strcpy(temp, c);
           }
           else if (c[0] == 'x' && temp[0] == ':'){
             strcat(temp, c);
@@ -79,7 +79,7 @@ int editxt_execute(const char *str){
           printf("%c", c[0]);
           
           if (c[0] == ':'){
-            strcat(temp, c);
+            strcpy(temp, c);
           }
           else if (c[0] == 'x' && temp[0] == ':'){
             strcat(temp, c);
